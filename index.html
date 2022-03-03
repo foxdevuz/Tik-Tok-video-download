@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tik Tok video downloader</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <form>
+    <input id="inp" type="text" name="" placeholder="Enter only tik-tok video link">
+    <button class="button">Send</button>
+  </form>
+  <div class="video">
+    <video id="vid" src="" autoplay></video>
+    <a href="" class="down">Download video</a>
+    <p>
+      <h2 class="more">More Info</h2>
+      <div class="container__Info">
+        <p>Like: <span id="like"></span></p>
+        <p>Share: <span id="share"></span></p>
+      </div>
+    </p>
+</div>
+    <script>
+      // Variable
+      let like= document.getElementById("like")
+      let share = document.getElementById("share")
+      let button = document.querySelector(".button")
+      let video = document.getElementById("vid")
+      let a_href = document.querySelector(".down")
+      let input = document.getElementById("inp")
+      let vidContainer = document.querySelector(".video")
+      // Functions
+      button.onclick = () =>{
+        event.preventDefault();
+        if(input.value.includes('tiktok')){
+          vidContainer.style.visibility = "visible"
+            let xhr = new XMLHttpRequest();
+          xhr.open('GET', './index.php?url=' + input.value ,true);
+
+          xhr.onload = () =>{
+            let JSON_Pars = JSON.parse(xhr.responseText)
+            a_href.href = JSON_Pars.result.download
+            video.src = JSON_Pars.result.download
+            like.innerText = JSON_Pars.result.like
+            share.innerText = JSON_Pars.result.share
+          }  
+          xhr.send();
+        } else {
+          alert("Iltimos faqat Tik Tokga tegishli video havolasini kiriting");
+          vidContainer.style.visibility = "hidden"
+          input.value = ""
+        }
+       
+
+    }
+    </script>
+</body>
+</html>
